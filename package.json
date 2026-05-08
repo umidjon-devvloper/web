@@ -2,6 +2,9 @@
   "name": "web-check",
   "type": "module",
   "version": "2.0.2",
+  "engines": {
+    "node": "20.x"
+  },
   "homepage": "https://web-check.xyz",
   "scripts": {
     "start": "node server",
