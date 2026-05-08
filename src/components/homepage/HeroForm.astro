@@ -1,0 +1,333 @@
+---
+import AnimatedButton from "./AnimatedButton.astro"
+import AnimatedInput from "./AnimatedInput.astro"
+import Screenshots from "./Screenshots.astro"
+---
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="brand-row fade-up" style="animation-delay: 0.05s;">
+      <div class="logo-wrap">
+        <img src="/favicon.svg" alt="" width="56" height="56" />
+        <span class="logo-glow" aria-hidden="true"></span>
+      </div>
+      <h1 class="brand-name">
+        <span class="web">Web</span><span class="check">Check</span>
+      </h1>
+      <span class="tag">v2.0 · Open Source</span>
+    </div>
+
+    <div class="headline-block">
+      <div class="eyebrow fade-up" style="animation-delay: 0.15s;">
+        <span class="ping" aria-hidden="true"></span>
+        OSINT &amp; Security Toolkit
+      </div>
+
+      <h2 class="headline fade-up" style="animation-delay: 0.25s;">
+        X-Ray vision for
+        <span class="hl">any website</span>
+      </h2>
+
+      <p class="subhead fade-up" style="animation-delay: 0.35s;">
+        In just <strong>20 seconds</strong>, see what attackers already know.
+        Inspect SSL, DNS, headers, tech stack, threats &amp; <strong>30+ more checks</strong>.
+      </p>
+
+      <form
+        name="live-start"
+        autocomplete="off"
+        action="/check"
+        class="live-start fade-up"
+        id="live-start"
+        style="animation-delay: 0.45s;"
+      >
+        <label for="url-input" class="form-label">
+          <span class="kbd-hint">⌘ K</span>
+          Enter a URL to start
+        </label>
+        <div class="form-row">
+          <AnimatedInput />
+          <AnimatedButton />
+        </div>
+      </form>
+
+      <div class="trust-row fade-up" style="animation-delay: 0.55s;">
+        <div class="stat">
+          <strong>30+</strong>
+          <span>Checks</span>
+        </div>
+        <div class="divider" aria-hidden="true"></div>
+        <div class="stat">
+          <strong>~20s</strong>
+          <span>Avg. scan</span>
+        </div>
+        <div class="divider" aria-hidden="true"></div>
+        <div class="stat">
+          <strong>100%</strong>
+          <span>Open Source</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <Screenshots />
+</section>
+
+<script>
+  const form = document.getElementById('live-start');
+  const urlInput = document.getElementById('url-input') as HTMLInputElement;
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const url = urlInput.value.trim();
+    if (url) {
+      window.location.href = `/check/${encodeURIComponent(url)}`;
+    }
+  });
+
+  urlInput?.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      const url = urlInput.value.trim();
+      const noProto = /^[a-zA-Z0-9]+[a-zA-Z0-9.-]*\.[a-zA-Z]{2,}$/;
+      if (url && !/^https?:\/\//i.test(url) && noProto.test(url)) {
+        urlInput.value = 'https://' + url;
+        form?.dispatchEvent(new Event('submit'));
+      }
+    }
+  });
+
+  // Keyboard shortcut (Cmd/Ctrl + K)
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      urlInput?.focus();
+    }
+  });
+</script>
+
+<style lang="scss">
+  @import '@styles/global.scss';
+
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+    min-height: calc(100vh - 100px);
+
+    @include desktop-down {
+      grid-template-columns: 1fr;
+      min-height: auto;
+      padding-top: 4rem;
+    }
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    max-width: 720px;
+    z-index: 5;
+
+    @include tablet-landscape-down {
+      gap: 2rem;
+    }
+  }
+
+  /* ---- Brand row ---- */
+  .brand-row {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+  }
+
+  .logo-wrap {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    img {
+      width: 3rem;
+      height: 3rem;
+      position: relative;
+      z-index: 2;
+      filter: drop-shadow(0 0 12px var(--primary-glow));
+    }
+  }
+  .logo-glow {
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+    animation: pulse-glow 4s ease-in-out infinite;
+  }
+
+  .brand-name {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    .web   { color: var(--text-color); }
+    .check { color: var(--primary); font-style: italic; }
+  }
+
+  .tag {
+    margin-left: 0.5rem;
+    padding: 0.35rem 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--primary);
+    background: var(--primary-faint);
+    border: 1px solid var(--border-primary);
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  /* ---- Headline ---- */
+  .headline-block {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: fit-content;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--primary);
+    background: var(--primary-faint);
+    border: 1px solid var(--border-primary);
+    border-radius: 999px;
+    .ping {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 8px var(--primary);
+      animation: pulse-glow 1.5s ease-in-out infinite;
+    }
+  }
+
+  .headline {
+    margin: 0;
+    font-size: clamp(2.5rem, 6vw, 4.25rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    .hl {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-lighter) 50%, var(--accent-cyan) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-style: italic;
+      position: relative;
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0.05em;
+        height: 0.18em;
+        background: var(--primary-faint);
+        border-radius: 999px;
+        z-index: -1;
+      }
+    }
+  }
+
+  .subhead {
+    max-width: 32rem;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    color: var(--text-color-secondary);
+    line-height: 1.6;
+    margin: 0;
+    strong {
+      color: var(--text-color);
+      font-weight: 600;
+    }
+  }
+
+  /* ---- Form ---- */
+  .live-start {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .form-label {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-color-secondary);
+  }
+
+  .kbd-hint {
+    padding: 0.2rem 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--primary);
+    background: var(--background-lighter);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-shadow: 0 1px 0 var(--border-color);
+  }
+
+  .form-row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: stretch;
+
+    @include mobile-down {
+      flex-direction: column;
+    }
+
+    > :first-child { flex: 1; }
+  }
+
+  /* ---- Trust row ---- */
+  .trust-row {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      strong {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--primary);
+        font-feature-settings: 'tnum';
+        line-height: 1;
+      }
+      span {
+        font-size: 0.8rem;
+        color: var(--text-color-thirdly);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+    }
+    .divider {
+      width: 1px;
+      height: 32px;
+      background: var(--border-color);
+    }
+  }
+</style>

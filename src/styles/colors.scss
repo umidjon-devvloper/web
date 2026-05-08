@@ -1,0 +1,112 @@
+:root {
+  // Primary brand colors - signature lime/electric
+  --primary: #d6fb41;
+  --primary-lighter: #e8ff7a;
+  --primary-darker: #a8c834;
+  --primary-glow: #d6fb4140;
+  --primary-transparent: #d6fb4130;
+  --primary-faint: #d6fb410d;
+
+  // Accent colors - cyber palette
+  --accent-cyan: #04e4f4;
+  --accent-magenta: #ff2e93;
+  --accent-purple: #7c5cff;
+
+  // Text hierarchy
+  --text-color: #ffffff;
+  --text-color-secondary: #ffffffb6;
+  --text-color-thirdly: #ffffff5b;
+  --text-color-faint: #ffffff2a;
+
+  // Background hierarchy - layered depth
+  --background: #0a0c0a;
+  --background-darker: #050605;
+  --background-lighter: #15181a;
+  --background-elevated: #1c2024;
+  --background-50: #0a0c0a80;
+  --background-glass: rgba(15, 18, 16, 0.65);
+  --background-glass-strong: rgba(10, 12, 10, 0.85);
+
+  // Shadow colors
+  --bg-shadow-color: #0f1620;
+  --fg-shadow-color: #456602;
+  --glow-shadow: 0 0 40px rgba(214, 251, 65, 0.15);
+  --card-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(214, 251, 65, 0.08);
+  --card-shadow-hover:
+    0 16px 48px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(214, 251, 65, 0.25),
+    0 0 60px rgba(214, 251, 65, 0.1);
+
+  // Action / status colors
+  --info: #04e4f4;
+  --success: #20e253;
+  --warning: #f6f000;
+  --error: #fca016;
+  --danger: #f80363;
+  --neutral: #272f4d;
+
+  // Gradients
+  --gradient-primary: linear-gradient(135deg, #d6fb41 0%, #04e4f4 100%);
+  --gradient-mesh:
+    radial-gradient(at 20% 30%, rgba(214, 251, 65, 0.08) 0px, transparent 50%),
+    radial-gradient(at 80% 70%, rgba(4, 228, 244, 0.05) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(124, 92, 255, 0.04) 0px, transparent 50%);
+  --gradient-text: linear-gradient(90deg, #ffffff 0%, #d6fb41 100%);
+  --gradient-card: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.01) 100%
+  );
+
+  // Borders
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-color-strong: rgba(255, 255, 255, 0.16);
+  --border-primary: rgba(214, 251, 65, 0.3);
+}
+
+html[data-theme="light"] {
+  --primary: #4a7700;
+  --primary-lighter: #6ba300;
+  --primary-darker: #3a5e00;
+  --primary-glow: #4a770040;
+  --primary-transparent: #4a770033;
+  --primary-faint: #4a77000a;
+
+  --accent-cyan: #0099a8;
+  --accent-magenta: #d11770;
+  --accent-purple: #5a3fcc;
+
+  --text-color: #1a1d1c;
+  --text-color-secondary: #57667e;
+  --text-color-thirdly: #8a96a8;
+  --text-color-faint: #c4cdd6;
+
+  --background: #ffffff;
+  --background-darker: #f4f6f4;
+  --background-lighter: #fafafa;
+  --background-elevated: #ffffff;
+  --background-glass: rgba(255, 255, 255, 0.75);
+  --background-glass-strong: rgba(255, 255, 255, 0.92);
+
+  --bg-shadow-color: #e0e0e0;
+  --fg-shadow-color: #678800;
+  --glow-shadow: 0 0 40px rgba(74, 119, 0, 0.12);
+  --card-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(74, 119, 0, 0.08);
+  --card-shadow-hover:
+    0 16px 40px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(74, 119, 0, 0.2);
+
+  --gradient-mesh:
+    radial-gradient(at 20% 30%, rgba(74, 119, 0, 0.05) 0px, transparent 50%),
+    radial-gradient(at 80% 70%, rgba(0, 153, 168, 0.04) 0px, transparent 50%);
+  --gradient-text: linear-gradient(90deg, #1a1d1c 0%, #4a7700 100%);
+  --gradient-card: linear-gradient(
+    145deg,
+    rgba(0, 0, 0, 0.02) 0%,
+    rgba(0, 0, 0, 0.005) 100%
+  );
+
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-color-strong: rgba(0, 0, 0, 0.16);
+  --border-primary: rgba(74, 119, 0, 0.3);
+}

@@ -1,0 +1,102 @@
+---
+interface Check {
+  label: string;
+  icon: string;
+}
+interface Props {
+  supportedChecks: Check[];
+}
+const { supportedChecks } = Astro.props;
+---
+
+<div class="features-grid">
+  {supportedChecks.map((check) => (
+    <div class="feature-pill">
+      <span class="icon" aria-hidden="true">{check.icon}</span>
+      <span class="label">{check.label}</span>
+    </div>
+  ))}
+  <a href="/about#features" class="feature-pill more">
+    <span class="icon" aria-hidden="true">→</span>
+    <span class="label">More</span>
+  </a>
+</div>
+
+<style lang="scss">
+  @import '@styles/global.scss';
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.65rem;
+
+    @include mobile-down {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .feature-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.85rem 1rem;
+    background: var(--gradient-card);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none !important;
+    color: inherit;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--primary-faint), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-primary);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--border-primary);
+      &::before {
+        opacity: 1;
+      }
+      .icon {
+        transform: scale(1.15);
+      }
+    }
+
+    .icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 1.4rem;
+      height: 1.4rem;
+      font-size: 1rem;
+      transition: transform 0.25s ease;
+    }
+
+    .label {
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text-color);
+      letter-spacing: -0.01em;
+      position: relative;
+      z-index: 1;
+    }
+
+    &.more {
+      cursor: pointer;
+      background: var(--primary-faint);
+      border-color: var(--border-primary);
+      .icon, .label { color: var(--primary); }
+      &:hover .icon { transform: translateX(3px); }
+    }
+  }
+</style>

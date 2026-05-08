@@ -1,0 +1,390 @@
+---
+import BaseLayout from '@layouts/Base.astro';
+import NavBar from '@components/scafold/Nav.astro';
+import Footer from '@components/scafold/Footer.astro';
+
+const cards = [
+  {
+    title: 'API Documentation',
+    desc: 'Full reference for every endpoint — usage, parameters, output schemas and live examples.',
+    icon: '/assets/images/swagger.svg',
+    link: '/web-check-api/spec',
+    cta: 'OpenAPI Spec',
+    featured: true,
+  },
+  {
+    title: 'Get an API Key',
+    desc: 'Sign up for free, manage rate limits and access your usage dashboard.',
+    icon: '/assets/images/webauthn.svg',
+    link: '/account',
+    cta: 'Sign Up',
+  },
+  {
+    title: 'API Source',
+    desc: 'View, fork, edit, download or self-host the API directly from the source.',
+    icon: '/assets/images/github.svg',
+    link: 'https://github.com/xray-web/web-check-api',
+    cta: 'GitHub',
+  },
+];
+
+const codeExample = `curl "https://api.web-check.xyz/api/ssl?url=https://example.com" \\
+  -H "x-api-key: YOUR_API_KEY"`;
+---
+
+<BaseLayout
+  title="API | Web Check"
+  description="Get started with the Web Check API."
+>
+  <div class="page-shell">
+    <NavBar />
+
+    <main>
+      <header class="page-head">
+        <span class="eyebrow">
+          <span class="dot" aria-hidden="true"></span>
+          Developers
+        </span>
+        <h1>Web Check <span class="hl">API</span></h1>
+        <p class="lede">
+          Programmatic access to <strong>30+ categories</strong> of web metrics.
+          Integrate into your own workflows to monitor performance, SEO, security and more.
+        </p>
+      </header>
+
+      <div class="quickstart">
+        <div class="quickstart-head">
+          <span class="qs-tag">Quick start</span>
+          <h2>One request away</h2>
+        </div>
+        <div class="code-block">
+          <div class="code-head">
+            <span class="lang">bash</span>
+            <button class="copy-btn" aria-label="Copy" data-cmd={codeExample}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre><code>{codeExample}</code></pre>
+        </div>
+      </div>
+
+      <div class="option-cards">
+        {cards.map((c) => (
+          <a href={c.link} class:list={['card', { featured: c.featured }]}>
+            <div class="card-icon"><img src={c.icon} alt="" /></div>
+            <h3>{c.title}</h3>
+            <p>{c.desc}</p>
+            <span class="card-cta">
+              {c.cta}
+              <span class="arrow" aria-hidden="true">→</span>
+            </span>
+          </a>
+        ))}
+      </div>
+
+      <section class="features-row">
+        {[
+          { stat: '30+',  label: 'Endpoints' },
+          { stat: 'JSON', label: 'Native format' },
+          { stat: 'REST', label: 'Standard interface' },
+          { stat: '99.9%', label: 'Uptime SLA' },
+        ].map((f) => (
+          <div class="stat-card">
+            <strong>{f.stat}</strong>
+            <span>{f.label}</span>
+          </div>
+        ))}
+      </section>
+    </main>
+
+    <Footer />
+  </div>
+</BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.copy-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const cmd = btn.dataset.cmd ?? '';
+      try {
+        await navigator.clipboard.writeText(cmd);
+        const span = btn.querySelector('span');
+        const orig = span?.textContent;
+        if (span) span.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          if (span && orig) span.textContent = orig;
+          btn.classList.remove('copied');
+        }, 1500);
+      } catch (e) { /* clipboard unavailable */ }
+    });
+  });
+</script>
+
+<style lang="scss">
+  @import '@styles/global.scss';
+
+  .page-shell {
+    min-height: 100vh;
+    padding-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    main {
+      width: min(90vw, 1100px);
+      margin: 0 auto;
+      flex: 1;
+      padding: 4rem 0 2rem;
+      @include mobile-down { padding: 2rem 0 1rem; }
+    }
+  }
+
+  .page-head {
+    margin-bottom: 3.5rem;
+    text-align: center;
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--primary);
+      background: var(--primary-faint);
+      border: 1px solid var(--border-primary);
+      border-radius: 999px;
+      margin-bottom: 1rem;
+      .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--primary);
+        box-shadow: 0 0 8px var(--primary);
+        animation: pulse-glow 2s ease-in-out infinite;
+      }
+    }
+    h1 {
+      margin: 0 0 1rem;
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      .hl {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--accent-cyan) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-style: italic;
+      }
+    }
+    .lede {
+      max-width: 38rem;
+      margin: 0 auto;
+      font-size: 1.1rem;
+      line-height: 1.65;
+      color: var(--text-color-secondary);
+      strong { color: var(--text-color); font-weight: 600; }
+    }
+  }
+
+  /* ---- Quickstart code block ---- */
+  .quickstart {
+    margin-bottom: 3.5rem;
+    .quickstart-head {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      .qs-tag {
+        padding: 0.25rem 0.6rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--background);
+        background: var(--primary);
+        border-radius: 4px;
+        letter-spacing: 0.04em;
+      }
+      h2 { margin: 0; font-size: 1.5rem; font-weight: 700; }
+    }
+  }
+
+  .code-block {
+    background: var(--background-darker);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    .code-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 1rem;
+      background: var(--background);
+      border-bottom: 1px solid var(--border-color);
+      .lang {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.75rem;
+        color: var(--text-color-thirdly);
+      }
+      .copy-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.35rem 0.75rem;
+        background: transparent;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        color: var(--text-color-secondary);
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        &:hover {
+          color: var(--primary);
+          border-color: var(--primary);
+          background: var(--primary-faint);
+        }
+        &.copied { color: var(--success); border-color: var(--success); }
+      }
+    }
+    pre {
+      margin: 0;
+      padding: 1.25rem;
+      overflow-x: auto;
+      code {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.9rem;
+        line-height: 1.7;
+        color: var(--text-color);
+        background: transparent;
+        border: none;
+        padding: 0;
+        white-space: pre;
+      }
+    }
+  }
+
+  /* ---- Cards ---- */
+  .option-cards {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    .card.featured { grid-column: span 2; }
+    @include tablet-landscape-down {
+      grid-template-columns: 1fr;
+      .card.featured { grid-column: span 1; }
+    }
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding: 1.75rem;
+    background: var(--gradient-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    text-decoration: none !important;
+    color: inherit;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-primary), transparent);
+      opacity: 0.4;
+    }
+
+    .card-icon {
+      width: 2.75rem;
+      height: 2.75rem;
+      display: grid;
+      place-items: center;
+      background: var(--background-lighter);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+      img { width: 1.4rem; height: 1.4rem; filter: brightness(0) invert(1); }
+    }
+
+    h3 { margin: 0; font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; }
+    p {
+      margin: 0;
+      flex: 1;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-color-secondary);
+    }
+
+    .card-cta {
+      margin-top: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-weight: 600;
+      color: var(--primary);
+      .arrow { transition: transform 0.25s ease; }
+    }
+
+    &:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-primary);
+      box-shadow: var(--card-shadow-hover);
+      .card-icon {
+        background: var(--primary);
+        border-color: var(--primary);
+        img { filter: brightness(0); }
+      }
+      .card-cta .arrow { transform: translateX(4px); }
+    }
+
+    &.featured {
+      background: linear-gradient(145deg, var(--primary-faint), transparent 60%);
+      border-color: var(--border-primary);
+    }
+  }
+
+  /* ---- Stats row ---- */
+  .features-row {
+    margin-top: 4rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--background-lighter);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+
+    @include mobile-down {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .stat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.25rem;
+    strong {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+    span {
+      font-size: 0.85rem;
+      color: var(--text-color-thirdly);
+      letter-spacing: 0.04em;
+    }
+  }
+</style>

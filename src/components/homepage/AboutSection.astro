@@ -1,0 +1,140 @@
+---
+import ButtonGroup from '@components/homepage/ButtonGroup.astro';
+import Features from '@components/homepage/Features.astro';
+import SponsorSegment from '@components/homepage/SponsorSegment.astro';
+
+const supportedChecks = [
+  { label: 'Archive History',  icon: '🗄️' },
+  { label: 'Block List Check', icon: '🚫' },
+  { label: 'Carbon Footprint', icon: '🌱' },
+  { label: 'Cookies',          icon: '🍪' },
+  { label: 'DNS Server',       icon: '🌐' },
+  { label: 'DNS Records',      icon: '📡' },
+  { label: 'DNSSEC',           icon: '🔐' },
+  { label: 'Site Features',    icon: '⚡' },
+  { label: 'Firewall Types',   icon: '🛡️' },
+  { label: 'Get IP Address',   icon: '🔍' },
+  { label: 'Headers',          icon: '📋' },
+  { label: 'HSTS',             icon: '🔒' },
+  { label: 'HTTP Security',    icon: '🛡️' },
+  { label: 'Linked Pages',     icon: '🔗' },
+  { label: 'Mail Config',      icon: '✉️' },
+  { label: 'Open Ports',       icon: '🚪' },
+  { label: 'Quality Check',    icon: '⭐' },
+  { label: 'Global Rank',      icon: '🏆' },
+  { label: 'Redirects',        icon: '↪️' },
+  { label: 'Robots.txt',       icon: '🤖' },
+  { label: 'Screenshot',       icon: '📸' },
+  { label: 'Security.txt',     icon: '🔏' },
+  { label: 'Sitemap',          icon: '🗺️' },
+  { label: 'Social Tags',      icon: '🏷️' },
+  { label: 'SSL Certificate',  icon: '📜' },
+  { label: 'Uptime Status',    icon: '💚' },
+  { label: 'Tech Stack',       icon: '🧱' },
+  { label: 'Known Threats',    icon: '⚠️' },
+  { label: 'TLS Version',      icon: '🔐' },
+  { label: 'Trace Route',      icon: '🛰️' },
+  { label: 'TXT Records',      icon: '📝' },
+  { label: 'Whois Lookup',     icon: '👤' },
+];
+
+const links = [
+  {
+    title: 'View on GitHub',
+    url: 'https://github.com/lissy93/web-check',
+    icon: 'github',
+    isCta: true,
+  },
+  { title: 'Deploy your Own', url: '/self-hosted-setup', icon: 'rocket',  isCta: false },
+  { title: 'Use the API',     url: '/web-check-api',     icon: 'code',    isCta: false },
+];
+---
+
+<section class="about-section">
+  <div class="features-intro">
+    <span class="badge">
+      <span class="dot" aria-hidden="true"></span>
+      30+ Checks · One Tool
+    </span>
+    <h3 class="section-title">
+      Ready to <span class="hl">x-ray</span> the web?
+    </h3>
+    <p class="section-lede">
+      View and analyze key website information in an instant — security,
+      infrastructure, performance, SEO and metadata, all in one report.
+    </p>
+  </div>
+
+  <Features supportedChecks={supportedChecks} />
+
+  <ButtonGroup links={links} />
+
+  <SponsorSegment />
+</section>
+
+<style lang="scss">
+  @import '@styles/global.scss';
+
+  .about-section {
+    width: min(90vw, 1200px);
+    margin: 6rem auto 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+  }
+
+  .features-intro {
+    max-width: 36rem;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--primary);
+    background: var(--primary-faint);
+    border: 1px solid var(--border-primary);
+    border-radius: 999px;
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 8px var(--primary);
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+  }
+
+  .section-title {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    .hl {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent-cyan) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-style: italic;
+    }
+  }
+
+  .section-lede {
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.65;
+    color: var(--text-color-secondary);
+  }
+</style>

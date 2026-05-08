@@ -1,0 +1,57 @@
+---
+import BaseLayout from '@layouts/Base.astro';
+import HeroForm from '@components/homepage/HeroForm.astro';
+import TempDisabled from '@/components/homepage/TempDisabled.astro';
+import HomeBackground from '@/components/homepage/HomeBackground';
+import AboutSection from '@/components/homepage/AboutSection.astro';
+import Footer from '@components/scafold/Footer.astro';
+
+const isBossServer = import.meta.env.BOSS_SERVER === true;
+const disableEverything = import.meta.env.VITE_DISABLE_EVERYTHING === true;
+
+if (!isBossServer) {
+  const searchUrl = new URLSearchParams(new URL(Astro.request.url).search).get('url');
+  const redirectUrl = searchUrl ? `/check/${encodeURIComponent(searchUrl)}` : '/check';
+  Astro.redirect(redirectUrl);
+}
+---
+
+<BaseLayout>
+  <Fragment slot="head">
+    {!isBossServer && (<meta http-equiv="refresh" content="0; url=/check" />)}
+  </Fragment>
+
+  { disableEverything && <TempDisabled />}
+
+  <main class="home-main">
+    <div class="hero-wrap">
+      <HeroForm />
+    </div>
+    <AboutSection />
+  </main>
+
+  <Footer />
+  <HomeBackground client:only="react" />
+</BaseLayout>
+
+<style lang="scss">
+  @import '@styles/global.scss';
+
+  .home-main {
+    position: relative;
+    z-index: 3;
+    min-height: 100vh;
+    padding: 1.5rem 1.5rem 0;
+    margin: 0 auto;
+
+    @include mobile-down {
+      padding: 1rem 0.75rem 0;
+    }
+  }
+
+  .hero-wrap {
+    width: min(95vw, 1400px);
+    margin: 0 auto;
+    padding-top: 1rem;
+  }
+</style>
